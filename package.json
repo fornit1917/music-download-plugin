@@ -1,0 +1,24 @@
+{
+  "name": "music-download-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev-server": "webpack-dev-server --progress --colors --env.dev",
+    "build": "webpack --progress --colors --env.prod",
+    "build-dev": "webpack --progress --colors --env.dev"
+  },
+  "author": "fornit1917",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015-webpack": "^6.4.3",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "file-saver": "^1.3.3"
+  }
+}

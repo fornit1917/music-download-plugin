@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Скачать музыку ВКонтакте</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .bookmarklet-code {
+            width: 70%;
+            max-width: 1000px;
+        }
+        @media (max-width: 530px) {
+            .logo {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text-center">
+        <img class="logo" src="./img/bg.png">
+        <p>
+            <textarea onclick="this.select()" readonly class="bookmarklet-code">javascript:(function(){if (typeof initMusicDownloader === 'function') {initMusicDownloader();} else {document.body.appendChild(document.createElement('script')).src='http://fornit1917.github.io/music-download-plugin/dist/downloader.js?1';}})();</textarea>
+        </p>
+    </div>
+</body>
+</html>
