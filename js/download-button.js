@@ -21,11 +21,11 @@ export default function insertButtonDefore({ node, url, fileName, style }) {
 
 function download (e) {
     const btn =e.target;
+    e.stopPropagation();
     if (btn.dataset.noUseAjax) {
         return true;
     }
 
-    e.stopPropagation();
     e.preventDefault();
     if (e.target.hasAttribute("disabled")) {
         return false;
