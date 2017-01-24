@@ -1,7 +1,11 @@
 import initVkDownloader from "./vk-downloader";
 
 function initMusicDownloader() {
-    initVkDownloader();
+    if (location.hostname === "vk.com") {
+        initVkDownloader();
+    } else {
+        alert(`${location.hostname} is unsupported site for Music Download Plugin`);
+    }
 }
 
 window.initMusicDownloader = initMusicDownloader;
