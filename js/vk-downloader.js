@@ -1,6 +1,7 @@
 import axios from "axios";
-import { CLASS_PROCESSED } from "./constants";
+import { CLASS_PROCESSED, GLOBAL_INIT_FLAG } from "./constants";
 import insertButtonBefore from "./download-button";
+import { addGlobalAjaxOnCompleteHook }  from "./utils";
 
 const URL_LOAD_LINKS = "/al_audio.php";
 const CHUNK_MAX_SIZE = 10;
@@ -23,11 +24,38 @@ export default function initVkDownloader() {
                 addDownloadButtons(tracksRegistry, urlsRegistry);
             },
             (err) => {
-                console.log("ERROR");
                 console.log(err);
             }
         );
     });
+
+    if (!window[GLOBAL_INIT_FLAG]) {
+        initAutoUpdate();
+    }    
+
+    window[GLOBAL_INIT_FLAG] = true;
+}
+
+function initAutoUpdate() {
+    var autoUpdateTimeoutId = 0;
+    var prevUrl = location.toString();
+    addGlobalAjaxOnCompleteHook(xhr => {
+        if (xhr.responseText.indexOf('audio_row') !== -1 || xhr.responseText.indexOf('.mp3?extra=') !== -1) {
+             clearTimeout(autoUpdateTimeoutId);
+             autoUpdateTimeoutId = setTimeout(initVkDownloader, 500);
+        }
+    });
+    window.addEventListener("scroll", () => {
+        clearTimeout(autoUpdateTimeoutId);
+        autoUpdateTimeoutId = setTimeout(initVkDownloader, 100);        
+    });
+    setInterval(() => {
+        const url = location.toString();
+        if (url !== prevUrl) {
+            prevUrl = url;
+            initVkDownloader();
+        }
+    }, 1000);
 }
 
 function getTracksChunks() {
