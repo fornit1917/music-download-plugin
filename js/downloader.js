@@ -4,7 +4,7 @@ function initMusicDownloader() {
     initVkDownloader();
 }
 
-window.initMusicDownloader = initVkDownloader;
+window.initMusicDownloader = initMusicDownloader;
 
 // run plugin
 (function () {
