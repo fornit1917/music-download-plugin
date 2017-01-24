@@ -4,7 +4,7 @@ import { DOWNLOAD_BUTTON_CLASS } from "./constants";
 
 const decoder = document.createElement("textarea");
 
-export default function insertButtonDefore({ node, url, fileName, className }) {
+export default function insertButtonBefore({ node, url, fileName, className }) {
     const btn = document.createElement("a");
     btn.setAttribute("download", fileName);
     btn.href = url;
