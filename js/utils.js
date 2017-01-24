@@ -13,8 +13,15 @@ export function addGlobalAjaxOnCompleteHook(cb) {
                 if ((this.responseType === "" || this.responseType === "text") && this.readyState == 4) {
                     XMLHttpRequest.callbacks.forEach(cb => { cb(this); });
                 }
-            }
+            };
             originalSend.apply(this, arguments);
         }
     }
+}
+
+export function addStylesheet(cssCode) {
+    const stylesheet = document.createElement("style");
+    stylesheet.type = "text/css";
+    stylesheet.innerHTML = cssCode;
+    document.getElementsByTagName("head")[0].appendChild(stylesheet);
 }
