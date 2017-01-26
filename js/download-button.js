@@ -4,11 +4,11 @@ import { DOWNLOAD_BUTTON_CLASS } from "./constants";
 
 const decoder = document.createElement("textarea");
 
-export default function insertButtonBefore({ node, url, fileName, className }) {
+export default function insertButtonBefore({ node, url, fileName }) {
     const btn = document.createElement("a");
     btn.setAttribute("download", fileName);
     btn.href = url;
-    btn.className = `${DOWNLOAD_BUTTON_CLASS} ${className}`;
+    btn.className = `${DOWNLOAD_BUTTON_CLASS}`;
     btn.addEventListener("click", download);
 
     node.parentNode.insertBefore(btn, node);
