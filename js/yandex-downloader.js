@@ -1,7 +1,10 @@
 import axios from "axios";
 import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON } from "./constants";
-import insertButtonBefore from "./download-button";
+import insertButtonBefore, { downloadByUrl, disableDownloadButton, enableDownloadButton } from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
+import md5 from "blueimp-md5";
+
+const SALT = "XGRlBW9FXlekgbPrRHuSiA";
 
 export default function initYandexDownloader() {
     if (!window[GLOBAL_INIT_FLAG]) {
@@ -27,6 +30,10 @@ export default function initYandexDownloader() {
             node: trackNode.querySelector(".like"),
             url: "#",
             fileName: artist ? `${artist} - ${title}.mp3` : `${title}.mp3`,
+            onDownloadClick,
+            attributes: {
+                "data-id": id,
+            }
         });
     })
 };
@@ -78,4 +85,49 @@ function addStyleForYandexButton() {
             margin: 18.5px 10px;        
         }`
     );
+}
+
+function onDownloadClick (e) {
+    const btn = e.target;
+    if (btn.dataset.hasUrl) {
+        return downloadByUrl(e);
+    }
+
+    const id = e.target.dataset.id;
+    const trackInfoUrl =`https://music.yandex.ru/api/v2.1/handlers/track/${id}/track/download/m?hq=1`;
+    disableDownloadButton(btn);
+    axios.request({
+        url: trackInfoUrl,
+        headers: {
+            "X-Retpath-Y": encodeURIComponent('https://music.yandex.ru/'),
+        }
+    }).then(
+        resp => {
+            return axios.get(`${resp.data.src}&format=json`);
+        },
+
+        error => {
+            enableDownloadButton(btn);
+            console.log(error);
+            alert("Error. Cannot download track");
+        },
+    ).then(
+        resp => {
+            const hash = md5(SALT + resp.data.path.substr(1) + resp.data.s);
+            btn.href = `https://${resp.data.host}/get-mp3/${hash}/${resp.data.ts + resp.data.path}`;
+            btn.setAttribute("data-hasUrl", "1");
+            enableDownloadButton(btn);
+            downloadByUrl(e);
+        },
+
+        error => {
+            enableDownloadButton(btn);
+            console.log(error);
+            alert("Error. Cannot download track");
+        }
+    );
+
+    console.log(e.target.dataset.id);
+    e.preventDefault();
+    e.stopPropagation();
 }

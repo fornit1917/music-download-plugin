@@ -4,17 +4,23 @@ import { DOWNLOAD_BUTTON_CLASS } from "./constants";
 
 const decoder = document.createElement("textarea");
 
-export default function insertButtonBefore({ node, url, fileName }) {
+export default function insertButtonBefore({ node, url, fileName, onDownloadClick, attributes }) {
     const btn = document.createElement("a");
     btn.setAttribute("download", fileName);
     btn.href = url;
     btn.className = `${DOWNLOAD_BUTTON_CLASS}`;
-    btn.addEventListener("click", download);
+    btn.addEventListener("click", onDownloadClick ? onDownloadClick : downloadByUrl);
+
+    if (attributes) {
+        for (var key in attributes) {
+            btn.setAttribute(key, attributes[key]);
+        }
+    }
 
     node.parentNode.insertBefore(btn, node);
 }
 
-function download (e) {
+export function downloadByUrl(e) {
     const btn =e.target;
     e.stopPropagation();
     if (btn.dataset.noUseAjax) {
@@ -59,12 +65,12 @@ function download (e) {
     return false;
 }
 
-function disableDownloadButton(btn) {
+export function disableDownloadButton(btn) {
     btn.style.opacity = "0.5";
     btn.setAttribute("disabled", "");
 };
 
-function enableDownloadButton(btn) {
+export function enableDownloadButton(btn) {
     btn.style.opacity = "1";
     btn.innerHTML = "";
     btn.style.backgroundImage = "";
