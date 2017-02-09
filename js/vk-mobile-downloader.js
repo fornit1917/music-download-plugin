@@ -1,4 +1,4 @@
-import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, ICON_VK_DOWNLOAD_BUTTON, DOWNLOAD_BUTTON_CLASS } from "./constants";
+import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_BUTTON_CLASS } from "./constants";
 import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet } from "./utils";
 
@@ -38,7 +38,7 @@ function addStylesheetForMobileVkButton() {
 				height: 18px;
 				padding-top: 6px;
 				margin: 0px 5px 0px 5px;
-				background-image: url("${ICON_VK_DOWNLOAD_BUTTON}");
+				background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
 				font-size: 11px;
 				text-align: center;
 			}

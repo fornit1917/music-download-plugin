@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_VK_DOWNLOAD_BUTTON } from "./constants";
+import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON } from "./constants";
 import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
 
@@ -116,7 +116,7 @@ function addStyleForVkButton() {
             height: 18px;
             padding-top: 6px;
             margin: 0px 5px 0px 10px;
-            background-image: url("${ICON_VK_DOWNLOAD_BUTTON}");
+            background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
             font-size: 11px;
         }
         
