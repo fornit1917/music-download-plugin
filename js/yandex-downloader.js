@@ -93,6 +93,9 @@ function onDownloadClick (e) {
         return downloadByUrl(e);
     }
 
+    e.preventDefault();
+    e.stopPropagation();
+
     const id = e.target.dataset.id;
     const trackInfoUrl =`https://music.yandex.ru/api/v2.1/handlers/track/${id}/track/download/m?hq=1`;
     disableDownloadButton(btn);
@@ -126,8 +129,4 @@ function onDownloadClick (e) {
             alert("Error. Cannot download track");
         }
     );
-
-    console.log(e.target.dataset.id);
-    e.preventDefault();
-    e.stopPropagation();
 }
