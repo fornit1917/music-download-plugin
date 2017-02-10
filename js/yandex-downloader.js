@@ -98,6 +98,7 @@ function addStyleForYandexButton() {
 function onDownloadClick (e) {
     const btn = e.target;
     if (btn.dataset.hasUrl) {
+        console.log("!!!!");
         return downloadByUrl(e);
     }
 
@@ -122,7 +123,7 @@ function onDownloadClick (e) {
         resp => {
             const hash = md5(SALT + resp.data.path.substr(1) + resp.data.s);
             btn.href = `https://${resp.data.host}/get-mp3/${hash}/${resp.data.ts + resp.data.path}`;
-            btn.setAttribute("data-hasUrl", "1");
+            btn.dataset.hasUrl = "1";
             enableDownloadButton(btn);
             downloadByUrl(e);
         },
