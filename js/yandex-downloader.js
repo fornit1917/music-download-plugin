@@ -83,6 +83,7 @@ function initAutoUpdate() {
             || node.parentNode.className.includes("artist__")
             || node.className.includes("playlist")) {
 
+            clearTimeout(autoUpdateTimeoutId);
             autoUpdateTimeoutId = setTimeout(initYandexDownloader, 500);
         }
     });
