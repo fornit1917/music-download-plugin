@@ -116,12 +116,8 @@ function onDownloadClick (e) {
         resp => {
             return axios.get(`${resp.data.src}&format=json`);
         },
+        error => { onDownloadError(error, btn); }
 
-        error => {
-            enableDownloadButton(btn);
-            console.log(error);
-            alert("Error. Cannot download track");
-        },
     ).then(
         resp => {
             const hash = md5(SALT + resp.data.path.substr(1) + resp.data.s);
@@ -130,11 +126,12 @@ function onDownloadClick (e) {
             enableDownloadButton(btn);
             downloadByUrl(e);
         },
-
-        error => {
-            enableDownloadButton(btn);
-            console.log(error);
-            alert("Error. Cannot download track");
-        }
+        error => { onDownloadError(error, btn); }
     );
+}
+
+function onDownloadError(error, btn) {
+    enableDownloadButton(btn);
+    console.log(error);
+    alert("Error. Cannot download track");
 }
