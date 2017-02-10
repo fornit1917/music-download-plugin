@@ -1,6 +1,6 @@
 import { saveAs } from "file-saver";
 import axios from "axios";
-import { DOWNLOAD_BUTTON_CLASS } from "./constants";
+import { DOWNLOAD_BUTTON_CLASS, DOWNLOAD_PROGRESS_CLASS } from "./constants";
 
 const decoder = document.createElement("textarea");
 
@@ -43,6 +43,7 @@ export function downloadByUrl(e) {
             if (progressEvent.lengthComputable) {
                 if (btn.style.backgroundImage != "none") {
                     btn.style.backgroundImage = "none";
+                    btn.className += ` ${DOWNLOAD_PROGRESS_CLASS}`;
                 }
                 const percent = Math.floor(progressEvent.loaded / progressEvent.total * 100);
                 e.target.innerHTML = `${percent}%`;
@@ -75,6 +76,7 @@ export function enableDownloadButton(btn) {
     btn.innerHTML = "";
     btn.style.backgroundImage = "";
     btn.removeAttribute("disabled");
+    btn.className = btn.className.replace(` ${DOWNLOAD_PROGRESS_CLASS}`, '');
 }
 
 function htmlDecode(text) {

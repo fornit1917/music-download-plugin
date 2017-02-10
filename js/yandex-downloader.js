@@ -1,5 +1,7 @@
 import axios from "axios";
-import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON } from "./constants";
+import {
+    CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_PROGRESS_CLASS
+} from "./constants";
 import insertButtonBefore, { downloadByUrl, disableDownloadButton, enableDownloadButton } from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
 import md5 from "blueimp-md5";
@@ -78,11 +80,17 @@ function addStyleForYandexButton() {
             height: 24px;
             margin: 6px 10px;
             background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
-            font-size: 11px;
         }
         
         .track_type_full .${DOWNLOAD_BUTTON_CLASS} {
             margin: 18.5px 10px;        
+        }
+
+        .${DOWNLOAD_BUTTON_CLASS}.${DOWNLOAD_PROGRESS_CLASS} {
+            vertical-align: baseline;
+            margin: 0px 10px;
+            color: #507299;
+            text-decoration: none;
         }`
     );
 }
