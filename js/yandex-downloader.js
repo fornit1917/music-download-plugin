@@ -3,7 +3,7 @@ import {
     CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_PROGRESS_CLASS
 } from "./constants";
 import insertButtonBefore, { downloadByUrl, disableDownloadButton, enableDownloadButton } from "./download-button";
-import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
+import { addStylesheet }  from "./utils";
 import md5 from "blueimp-md5";
 
 const SALT = "XGRlBW9FXlekgbPrRHuSiA";
@@ -11,6 +11,7 @@ const SALT = "XGRlBW9FXlekgbPrRHuSiA";
 export default function initYandexDownloader() {
     if (!window[GLOBAL_INIT_FLAG]) {
         addStyleForYandexButton();
+        initAutoUpdate();
         window[GLOBAL_INIT_FLAG] = true;
     }
 
@@ -71,6 +72,35 @@ function getArtistByTrackActionsNode(trackNode) {
     return artistsNode ? artistsNode.innerText : null;
 }
 
+function initAutoUpdate() {
+    var autoUpdateTimeoutId = 0;
+    var prevUrl = location.toString();
+
+    document.addEventListener("click", function (e) {
+        var node = e.target;
+        if (node.parentNode.className.includes("album_selectable")
+            || node.className.includes("album_selectable")
+            || node.parentNode.className.includes("artist__")
+            || node.className.includes("playlist")) {
+
+            autoUpdateTimeoutId = setTimeout(initYandexDownloader, 500);
+        }
+    });
+
+    window.addEventListener("scroll", () => {
+        clearTimeout(autoUpdateTimeoutId);
+        autoUpdateTimeoutId = setTimeout(initYandexDownloader, 100);
+    });
+
+    setInterval(() => {
+        const url = location.toString();
+        if (url !== prevUrl) {
+            prevUrl = url;
+            initYandexDownloader();
+        }
+    }, 1000);
+}
+
 function addStyleForYandexButton() {
     addStylesheet(`
         .${DOWNLOAD_BUTTON_CLASS} {
@@ -98,7 +128,6 @@ function addStyleForYandexButton() {
 function onDownloadClick (e) {
     const btn = e.target;
     if (btn.dataset.hasUrl) {
-        console.log("!!!!");
         return downloadByUrl(e);
     }
 
