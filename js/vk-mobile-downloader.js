@@ -1,6 +1,7 @@
 import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_BUTTON_CLASS } from "./constants";
 import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet } from "./utils";
+import vkUnmaskUrl from "./vk-unmask-url";
 
 export default function initVkMobileDownloader() {
 	if (!window[GLOBAL_INIT_FLAG]) {
@@ -15,7 +16,7 @@ export default function initVkMobileDownloader() {
 		const artist = node.getElementsByClassName("ai_artist")[0].innerText;
 		const title = node.getElementsByClassName("ai_title")[0].innerText;
 		const fileName = `${artist} - ${title}.mp3`;
-		const url = node.getElementsByTagName("input")[0].value;
+		const url = vkUnmaskUrl(node.getElementsByTagName("input")[0].value);
 		let nodeForButton = node.getElementsByClassName("ai_del")[0];
 		if (!nodeForButton) {
 			nodeForButton = node.getElementsByClassName("ai_body")[0];
