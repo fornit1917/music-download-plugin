@@ -34,13 +34,13 @@ function initAutoUpdate() {
     var prevUrl = location.toString();
     addGlobalAjaxOnCompleteHook(xhr => {
         if (xhr.responseText.indexOf('audio_row') !== -1 || xhr.responseText.indexOf('.mp3?extra=') !== -1) {
-             clearTimeout(autoUpdateTimeoutId);
-             autoUpdateTimeoutId = setTimeout(initVkDownloader, 500);
+            clearTimeout(autoUpdateTimeoutId);
+            autoUpdateTimeoutId = setTimeout(initVkDownloader, 500);
         }
     });
     window.addEventListener("scroll", () => {
         clearTimeout(autoUpdateTimeoutId);
-        autoUpdateTimeoutId = setTimeout(initVkDownloader, 100);        
+        autoUpdateTimeoutId = setTimeout(initVkDownloader, 100);
     });
     setInterval(() => {
         const url = location.toString();
