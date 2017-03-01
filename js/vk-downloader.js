@@ -2,6 +2,7 @@ import axios from "axios";
 import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON } from "./constants";
 import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
+import vkUnmaskUrl from "./vk-unmask-url";
 
 const URL_LOAD_LINKS = "/al_audio.php";
 const CHUNK_MAX_SIZE = 10;
@@ -91,7 +92,7 @@ function parseResponse(responseText) {
         return [];
     }
     return JSON.parse(jsonStr.substr(7).trim()).reduce((urlsRegistry, item) => {
-        urlsRegistry[`${item[1]}_${item[0]}`] = item[2];
+        urlsRegistry[`${item[1]}_${item[0]}`] = vkUnmaskUrl(item[2]);
         return urlsRegistry
     }, {});
 }
