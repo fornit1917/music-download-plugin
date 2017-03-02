@@ -1,6 +1,6 @@
 # music-download-plugin
 
-It's bookmarklet for download music from vk.com and m.vk.com.
+It's bookmarklet for download music from vk.com, m.vk.com and music.yandex.ru.
 
 Just create bookmark with next url:
 
