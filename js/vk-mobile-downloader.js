@@ -3,6 +3,8 @@ import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet } from "./utils";
 import vkUnmaskUrl from "./vk-unmask-url";
 
+const SELECTOR = `.ai_info .ai_body:not(.${CLASS_PROCESSED})`;
+
 export default function initVkMobileDownloader() {
     if (!window[GLOBAL_INIT_FLAG]) {
         addStylesheetForMobileVkButton();
@@ -10,7 +12,7 @@ export default function initVkMobileDownloader() {
         window[GLOBAL_INIT_FLAG] = true;
     }
 
-    Array.from(document.querySelectorAll(`.audio_item.ai_has_btn:not(.${CLASS_PROCESSED})`)).forEach(node => {
+    Array.from(document.querySelectorAll(SELECTOR)).forEach(node => {
         node.className += ` ${CLASS_PROCESSED}`;
 
         const artist = node.getElementsByClassName("ai_artist")[0].innerText;
@@ -19,7 +21,7 @@ export default function initVkMobileDownloader() {
         const url = vkUnmaskUrl(node.getElementsByTagName("input")[0].value);
         let nodeForButton = node.getElementsByClassName("ai_del")[0];
         if (!nodeForButton) {
-            nodeForButton = node.getElementsByClassName("ai_body")[0];
+            nodeForButton = node.parentNode.getElementsByClassName("ai_menu_wrap")[0];
         }
 
         insertButtonBefore({
@@ -35,26 +37,18 @@ function addStylesheetForMobileVkButton() {
 			.${DOWNLOAD_BUTTON_CLASS} {
 				display: block;
 				float: left;
-				width: 24px;
-				height: 18px;
-				padding-top: 6px;
+				width: 48px;
+				height: 48px;
 				margin: 0px 5px 0px 5px;
 				background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
 				font-size: 11px;
 				text-align: center;
 			}
 			
-			.wall_item .${DOWNLOAD_BUTTON_CLASS} {
-				width: 40px;
-				height: 30px;
-				padding-top: 10px;
-			}
-			
 			.wall_item .ai_current .${DOWNLOAD_BUTTON_CLASS},
 			.wall_item .ai_playing .${DOWNLOAD_BUTTON_CLASS} {
-				width: 24px !important;
-				height: 18px !important;
-				padding-top: 6px;
+				width: 28px !important;
+				height: 28px !important;
 			}			
 		`);
 }
