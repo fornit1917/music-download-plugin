@@ -1,4 +1,4 @@
-import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_BUTTON_CLASS } from "./constants";
+import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_BUTTON_CLASS, DOWNLOAD_PROGRESS_CLASS } from "./constants";
 import insertButtonBefore from "./download-button";
 import { addGlobalAjaxOnCompleteHook, addStylesheet } from "./utils";
 import vkUnmaskUrl from "./vk-unmask-url";
@@ -43,10 +43,17 @@ function addStylesheetForMobileVkButton() {
 				text-align: center;
 			}
 			
-			.wall_item .ai_current .${DOWNLOAD_BUTTON_CLASS},
-			.wall_item .ai_playing .${DOWNLOAD_BUTTON_CLASS} {
+            .${DOWNLOAD_BUTTON_CLASS}.${DOWNLOAD_PROGRESS_CLASS} {
+                padding-top: 15px;
+                height: auto;
+			}
+			
+			.ai_current .${DOWNLOAD_BUTTON_CLASS},
+			.ai_playing .${DOWNLOAD_BUTTON_CLASS} {
 				width: 28px !important;
 				height: 28px !important;
+				position: absolute;
+				right: 25px;
 			}			
 		`);
 }
