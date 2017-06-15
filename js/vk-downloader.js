@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CLASS_PROCESSED, GLOBAL_INIT_FLAG, DOWNLOAD_BUTTON_CLASS, ICON_BLUE_DOWNLOAD_BUTTON, DOWNLOAD_PROGRESS_CLASS } from "./constants";
 import insertButtonBefore from "./download-button";
-import { addGlobalAjaxOnCompleteHook, addStylesheet }  from "./utils";
+import { addStylesheet }  from "./utils";
 import vkUnmaskUrl from "./vk-unmask-url";
 
 const URL_LOAD_LINKS = "/al_audio.php";
@@ -32,12 +32,6 @@ export default function initVkDownloader() {
 function initAutoUpdate() {
     var autoUpdateTimeoutId = 0;
     var prevUrl = location.toString();
-    addGlobalAjaxOnCompleteHook(xhr => {
-        if (xhr.responseText.indexOf('audio_row') !== -1 || xhr.responseText.indexOf('.mp3?extra=') !== -1) {
-            clearTimeout(autoUpdateTimeoutId);
-            autoUpdateTimeoutId = setTimeout(initVkDownloader, 500);
-        }
-    });
     window.addEventListener("scroll", () => {
         clearTimeout(autoUpdateTimeoutId);
         autoUpdateTimeoutId = setTimeout(initVkDownloader, 100);
