@@ -61,7 +61,7 @@ function getTracksChunks() {
             artist: data[4],
             title: data[3],
             node: rowNode,
-            id: rowNode.id.substr(6)
+            id: rowNode.dataset.fullId,
         };
         rowNode.className += ` ${CLASS_PROCESSED}`;
         chunks[chunkNum][track.id] = track;
@@ -95,7 +95,7 @@ function addDownloadButtons(tracksRegistry, urlsRegistry) {
     for (var id in tracksRegistry) {
         const track = tracksRegistry[id];
         insertButtonBefore({
-            node: track.node.querySelector(".audio_info"),
+            node: track.node.querySelector(".audio_row__info"),
             url: urlsRegistry[id],
             fileName: `${track.artist} - ${track.title}.mp3`,
         });
@@ -109,7 +109,7 @@ function addStyleForVkButton() {
             float: left;
             width: 24px;
             height: 24px;
-            margin: 5px 5px 0px 5px;
+            margin: 8px 8px 0 0;
             background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
             font-size: 11px;
         }
