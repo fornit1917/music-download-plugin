@@ -36,7 +36,9 @@ export default function initYandexDownloader() {
             onDownloadClick,
             attributes: {
                 "data-id": id,
-            }
+            },
+            title,
+            artist,
         });
     })
 };

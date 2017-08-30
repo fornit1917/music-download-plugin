@@ -1,14 +1,17 @@
 import { saveAs } from "file-saver";
+import ID3Writer from "browser-id3-writer";
 import axios from "axios";
 import { DOWNLOAD_BUTTON_CLASS, DOWNLOAD_PROGRESS_CLASS } from "./constants";
 
 const decoder = document.createElement("textarea");
 
-export default function insertButtonBefore({ node, url, fileName, onDownloadClick, attributes }) {
+export default function insertButtonBefore({ node, url, fileName, onDownloadClick, attributes, artist, title }) {
     const btn = document.createElement("a");
     btn.setAttribute("download", fileName);
     btn.href = url;
     btn.className = `${DOWNLOAD_BUTTON_CLASS}`;
+    btn.dataset.artist = artist;
+    btn.dataset.title = title;
     btn.addEventListener("click", onDownloadClick ? onDownloadClick : downloadByUrl);
 
     if (attributes) {
@@ -38,7 +41,7 @@ export function downloadByUrl(e) {
     disableDownloadButton(btn);
     axios.request({
         url,
-        responseType: "blob",
+        responseType: "arraybuffer",
         onDownloadProgress: progressEvent => {
             if (progressEvent.lengthComputable) {
                 if (btn.style.backgroundImage != "none") {
@@ -51,8 +54,14 @@ export function downloadByUrl(e) {
         },
     }).then(
         resp => {
+            const id3Writer = new ID3Writer(resp.data);
+            id3Writer
+                .setFrame('TPE1', [btn.dataset.artist])
+                .setFrame('TIT2', btn.dataset.title);
+            id3Writer.addTag();
+
+            saveAs(id3Writer.getBlob(), htmlDecode(name));
             enableDownloadButton(e.target);
-            saveAs(resp.data, htmlDecode(name));
         },
 
         error => {
