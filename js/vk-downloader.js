@@ -98,6 +98,8 @@ function addDownloadButtons(tracksRegistry, urlsRegistry) {
             node: track.node.querySelector(".audio_row__info"),
             url: urlsRegistry[id],
             fileName: `${track.artist} - ${track.title}.mp3`,
+            artist: track.artist,
+            title: track.title,
         });
     }
 }
