@@ -82,6 +82,7 @@ function initAutoUpdate() {
         var node = e.target;
         if (node.parentNode.className.includes("album_selectable")
             || node.className.includes("album_selectable")
+            || node.className.includes("d-hover__overlap")
             || node.parentNode.className.includes("artist__")
             || node.className.includes("playlist")) {
 
@@ -111,12 +112,8 @@ function addStyleForYandexButton() {
             vertical-align: top;
             width: 24px;
             height: 24px;
-            margin: 6px 10px;
+            margin: 3px 10px;
             background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
-        }
-        
-        .track_type_full .${DOWNLOAD_BUTTON_CLASS} {
-            margin: 18.5px 10px;        
         }
 
         .${DOWNLOAD_BUTTON_CLASS}.${DOWNLOAD_PROGRESS_CLASS} {
