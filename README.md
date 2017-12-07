@@ -1,6 +1,8 @@
 # music-download-plugin
 
-It's bookmarklet for download music from vk.com, m.vk.com and music.yandex.ru.
+It's bookmarklet for download music from **vk.com**.
+
+Sites m.vk.com and music.yandex.ru are temporary unsupported.
 
 Just create bookmark with next url:
 
