@@ -95,7 +95,7 @@ function addDownloadButtons(tracksRegistry, urlsRegistry) {
     for (var id in tracksRegistry) {
         const track = tracksRegistry[id];
         insertButtonBefore({
-            node: track.node.querySelector(".audio_row__info"),
+            node: track.node.querySelector(".audio_row__performer_title"),
             url: urlsRegistry[id],
             fileName: `${track.artist} - ${track.title}.mp3`,
             artist: track.artist,
@@ -112,7 +112,7 @@ function addStyleForVkButton() {
             width: 24px;
             height: 24px;
             margin: 8px 8px 0 0;
-            background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
+            background: url("${ICON_BLUE_DOWNLOAD_BUTTON}") no-repeat;
             font-size: 11px;
         }
         
