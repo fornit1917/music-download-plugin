@@ -2,7 +2,7 @@
 
 It's bookmarklet for download music from **vk.com**.
 
-Sites m.vk.com and music.yandex.ru are temporary unsupported.
+Unfortunately, sites m.vk.com and music.yandex.ru are not supported now.
 
 Just create bookmark with next url:
 
