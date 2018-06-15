@@ -25,7 +25,9 @@ export default function initVkMobileDownloader() {
         insertButtonBefore({
             fileName,
             url,
-            node: nodeForButton
+            node: nodeForButton,
+            title,
+            artist,
         });
     });
 }
