@@ -57,12 +57,15 @@ function getTracksChunks() {
             chunkSize = 0;
         }
         const data = JSON.parse(rowNode.dataset.audio);
+        const hashes = data[13].split("/");
         const track = {
             artist: data[4],
             title: data[3],
             node: rowNode,
+            idWithHash: `${rowNode.dataset.fullId}_${hashes[2]}_${hashes[5]}`,
             id: rowNode.dataset.fullId,
         };
+        
         rowNode.className += ` ${CLASS_PROCESSED}`;
         chunks[chunkNum][track.id] = track;
         chunkSize++;
@@ -75,7 +78,7 @@ function loadURLs(tracksRegistry) {
     const params = new URLSearchParams();
     params.append("act", "reload_audio");
     params.append("al", "1");
-    params.append("ids", Object.keys(tracksRegistry).join(","));
+    params.append("ids", Object.keys(tracksRegistry).map(id => tracksRegistry[id].idWithHash).join(","));
     return axios.post(URL_LOAD_LINKS, params);
 }
 
