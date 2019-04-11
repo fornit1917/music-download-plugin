@@ -89,7 +89,11 @@ function parseResponse(responseText) {
         return [];
     }
     return JSON.parse(jsonStr.substr(7).trim()).reduce((urlsRegistry, item) => {
-        urlsRegistry[`${item[1]}_${item[0]}`] = vkUnmaskUrl(item[2]);
+        const url = vkUnmaskUrl(item[2]);
+        const urlParts = url.split("/");
+        const mp3Url = `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`;
+
+        urlsRegistry[`${item[1]}_${item[0]}`] = mp3Url;
         return urlsRegistry
     }, {});
 }
