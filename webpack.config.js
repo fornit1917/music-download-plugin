@@ -1,8 +1,10 @@
-var webpack = require("webpack");
+const webpack = require("webpack");
 
-module.exports = function (options) {
+
+module.exports = function (env, options) {
     var plugins = [];
-    if (!options.dev) {
+    const isDev = options.mode === "development";
+    if (!isDev) {
         plugins.push(
             new webpack.DefinePlugin({
                 "process.env": {
@@ -10,9 +12,6 @@ module.exports = function (options) {
                 }
             })
         );
-        plugins.push(new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
-        }));
     }
 
     return {
@@ -20,16 +19,11 @@ module.exports = function (options) {
         output: { path: __dirname, filename: "dist/downloader.js" },
         plugins: plugins,
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /.js/,
                     loader: "babel-loader",
                     exclude: /node_modules/,
-                    query: {
-                        presets: [
-                            ["es2015", { modules: false }]
-                        ]
-                    }
                 }
             ]
         },
