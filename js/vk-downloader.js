@@ -91,7 +91,11 @@ function parseResponse(responseText) {
     return JSON.parse(jsonStr.substr(7).trim()).reduce((urlsRegistry, item) => {
         const url = vkUnmaskUrl(item[2]);
         const urlParts = url.split("/");
-        const mp3Url = `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`;
+        console.log(url);
+        console.log(urlParts);
+        const mp3Url = urlParts.length === 7 
+            ? `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`
+            : `https://${urlParts[2]}/${urlParts[3]}/${urlParts[4]}/${urlParts[6]}/${urlParts[7]}.mp3?${urlParts[8].split("?", 2)[1]}`
 
         urlsRegistry[`${item[1]}_${item[0]}`] = mp3Url;
         return urlsRegistry
