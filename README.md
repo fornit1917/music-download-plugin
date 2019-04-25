@@ -1,8 +1,8 @@
 # music-download-plugin
 
-It's bookmarklet for download music from **vk.com**.
+**Unfortunately, vk.com and music.yandex.ru restrict loading javascripts from external domain, and this plug-in does not work now :(.**
 
-Unfortunately, sites m.vk.com and music.yandex.ru are not supported now.
+It's bookmarklet for download music from **vk.com**.
 
 Just create bookmark with next url:
 
