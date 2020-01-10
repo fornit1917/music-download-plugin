@@ -56,6 +56,7 @@ function getTracksChunks() {
             chunks[chunkNum] = {};
             chunkSize = 0;
         }
+
         const data = JSON.parse(rowNode.dataset.audio);
         const hashes = data[13].split("/");
         const track = {
@@ -83,16 +84,12 @@ function loadURLs(tracksRegistry) {
 }
 
 function parseResponse(responseText) {
-    const lines = responseText.split("<!>");
-    const jsonStr = lines.find(line => line.startsWith("<!json>"));
-    if (!jsonStr) {
-        return [];
-    }
-    return JSON.parse(jsonStr.substr(7).trim()).reduce((urlsRegistry, item) => {
+    const jsonStr = responseText.substr(4);
+    const data = JSON.parse(jsonStr.trim());
+
+    return data.payload[1][0].reduce((urlsRegistry, item) => {
         const url = vkUnmaskUrl(item[2]);
         const urlParts = url.split("/");
-        console.log(url);
-        console.log(urlParts);
         const mp3Url = urlParts.length === 7 
             ? `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`
             : `https://${urlParts[2]}/${urlParts[3]}/${urlParts[4]}/${urlParts[6]}/${urlParts[7]}.mp3?${urlParts[8].split("?", 2)[1]}`
