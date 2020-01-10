@@ -90,9 +90,14 @@ function parseResponse(responseText) {
     return data.payload[1][0].reduce((urlsRegistry, item) => {
         const url = vkUnmaskUrl(item[2]);
         const urlParts = url.split("/");
-        const mp3Url = urlParts.length === 7 
-            ? `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`
-            : `https://${urlParts[2]}/${urlParts[3]}/${urlParts[4]}/${urlParts[6]}/${urlParts[7]}.mp3?${urlParts[8].split("?", 2)[1]}`
+        let mp3Url;
+        if (url.includes(".mp3")) {
+            mp3Url = url;
+        } else {
+            mp3Url = urlParts.length === 7 
+                ? `https://${urlParts[2]}/${urlParts[3]}/${urlParts[5]}.mp3?${urlParts[6].split("?", 2)[1]}`
+                : `https://${urlParts[2]}/${urlParts[3]}/${urlParts[4]}/${urlParts[6]}/${urlParts[7]}.mp3?${urlParts[8].split("?", 2)[1]}`
+        }
 
         urlsRegistry[`${item[1]}_${item[0]}`] = mp3Url;
         return urlsRegistry
