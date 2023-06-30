@@ -1,4 +1,4 @@
 # music-download-plugin
 
-Copy code from dist/downloader.js and paste in browser console.
-Now it works only on vk.com.
+Copy code from dist/downloader.js and paste into the browser console. A download button will appear next to each track.
+Now it works only on music.yandex.ru.

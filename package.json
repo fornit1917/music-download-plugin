@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev-server": "webpack-dev-server --progress --colors --mode development",
-    "build": "webpack --progress --colors --mode production",
-    "build-dev": "webpack --progress --colors --mode development"
+    "dev-server": "webpack-dev-server --progress --mode development",
+    "build": "webpack --progress --mode production",
+    "build-dev": "webpack --progress --mode development"
   },
   "author": "fornit1917",
   "license": "ISC",
@@ -14,9 +14,9 @@
     "@babel/core": "^7.4.3",
     "babel-loader": "^8.0.5",
     "blueimp-md5": "^2.6.0",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.3.1"
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "axios": "^0.21.2",

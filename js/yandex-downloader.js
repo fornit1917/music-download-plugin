@@ -15,22 +15,20 @@ export default function initYandexDownloader() {
         window[GLOBAL_INIT_FLAG] = true;
     }
 
-    const tracks = document.querySelectorAll(`.track__actions:not(.${CLASS_PROCESSED})`);
-    tracks.forEach(trackNode => {
-        const linkNode = trackNode.querySelector(".share");
-        if (!linkNode) {
-            return;
-        }
+    const tracks = document.querySelectorAll(`.d-track:not(.${CLASS_PROCESSED})`);
 
-        const parts = linkNode.href.split("/");
-        const id = parts[parts.length - 1];
-        const title = trackNode.parentNode.querySelector(".track__title").innerText;
-        const artist = getArtistByTrackActionsNode(trackNode);
+    tracks.forEach(trackNode => {
+        
+        const id = trackNode.dataset.itemId;
+        const title = trackNode.querySelector(".d-track__name").innerText;
+        const artist = getArtist(trackNode);
 
         trackNode.className += ` ${CLASS_PROCESSED}`;
 
+        // console.log({ id, title, artist })
+
         insertButtonBefore({
-            node: trackNode.querySelector(".like"),
+            node: trackNode.querySelector(".d-like"),
             url: "#",
             fileName: artist ? `${artist} - ${title}.mp3` : `${title}.mp3`,
             onDownloadClick,
@@ -43,57 +41,24 @@ export default function initYandexDownloader() {
     })
 };
 
-function getArtistByTrackActionsNode(trackNode) {
-    let artistsNode = trackNode.parentNode.querySelector(".track__artists"); // common tracklist with artists
-    if (!artistsNode) {
-        // if sidebar playlist
-        if (trackNode.closest(".sidebar-playlist")) {
-            const artistsNodes = trackNode.parentNode.querySelectorAll(".track__name-wrap .link.link_mute");
-            return Array.from(artistsNodes).map(x => x.innerText).join(" & ");
-        }
+function getArtist(trackNode) {
+    var artistNode = trackNode.querySelector(".d-track__artists");
+    if (!artistNode || !artistNode.innerText) {
+        artistNode = document.querySelector(".page-artist__title");
     }
-
-    if (!artistsNode) {
-        // album page or album sidebar
-        let playlistNode = trackNode.closest(".page-album") || trackNode.closest(".sidebar-album");
-        if (playlistNode) {
-            artistsNode = playlistNode.querySelector(".album-summary__pregroup a");
-        } else {
-            // artist page
-            playlistNode = trackNode.closest(".page-artist");
-            if (playlistNode) {
-                artistsNode = playlistNode.querySelector(".page-artist__info .page-artist__title");
-            } else {
-                // artist sidebar
-                playlistNode = trackNode.closest(".sidebar-artist");
-                artistsNode = playlistNode ? playlistNode.querySelector(".sidebar-artist__title") : null;
-            }
-        }
+    if (!artistNode || !artistNode.innerText) {
+        artistNode = document.querySelector(".page-album__artists-short .d-artists");
     }
-
-    return artistsNode ? artistsNode.innerText : null;
+    return artistNode ? artistNode.innerText : "";    
 }
 
 function initAutoUpdate() {
     var autoUpdateTimeoutId = 0;
     var prevUrl = location.toString();
 
-    document.addEventListener("click", function (e) {
-        var node = e.target;
-        if (node.parentNode.className.includes("album_selectable")
-            || node.className.includes("album_selectable")
-            || node.className.includes("d-hover__overlap")
-            || node.parentNode.className.includes("artist__")
-            || node.className.includes("playlist")) {
-
-            clearTimeout(autoUpdateTimeoutId);
-            autoUpdateTimeoutId = setTimeout(initYandexDownloader, 500);
-        }
-    });
-
     window.addEventListener("scroll", () => {
         clearTimeout(autoUpdateTimeoutId);
-        autoUpdateTimeoutId = setTimeout(initYandexDownloader, 100);
+        autoUpdateTimeoutId = setTimeout(initYandexDownloader, 500);
     });
 
     setInterval(() => {
@@ -102,7 +67,7 @@ function initAutoUpdate() {
             prevUrl = url;
             initYandexDownloader();
         }
-    }, 1000);
+    }, 2000);
 }
 
 function addStyleForYandexButton() {
@@ -112,7 +77,7 @@ function addStyleForYandexButton() {
             vertical-align: top;
             width: 24px;
             height: 24px;
-            margin: 3px 10px;
+            margin-right: 5px;
             background-image: url("${ICON_BLUE_DOWNLOAD_BUTTON}");
         }
 
